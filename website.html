@@ -7,34 +7,48 @@
         <h1>Common Room B</h1>
 
         <hr>
-        
-        <main id="input_container">
+        <div class='envelope'>
 
-            <form id="reservationForm">
-
-                <label for="username">Name</label>
-                <input type="text" id="username" required placeholder="your name here">
-
-                <label for="date">Date</label>
-                <input type="date" id="date" required>
-
-                <label for="timeFrom">From</label>
-                <input type="time" id="timeFrom" value="18:00">
-
-                <label for="timeTill">Until</label>
-                <input type="time" id="timeTill" value="23:00">
-
-                <button type="submit">Reserve</button>
+            <div class="layout">
                 
-            </form>
+                <main id="input_container">
 
-        </main>
-        <aside id="list_display">
-            <h2>Current reservations</h2>
+                    <form id="reservationForm">
 
-            <ul id="reservationList"></ul>
-        </aside>
-        <script type='module' src="JavaScript.js"></script>
+                        <div class="form_item">
+                            <label for="username">Name</label><br>
+                            <input type="text" id="username" required placeholder="your name here">
+                        </div>
 
+                        <div class="form_item">
+                            <label for="date">Date</label><br>
+                            <input type="date" id="date" required>
+                        </div>
+
+                        <div class="form_item">
+                            <label for="timeFrom">From</label><br>
+                            <input type="time" id="timeFrom" step="60" value="18:00">
+                        </div> 
+
+                        <div class="form_item">
+                            <label for="timeTill">Until</label><br>
+                            <input type="time" id="timeTill" step="60" value="23:00">
+                        </div>
+
+                        <button type="submit">Reserve</button>
+                        
+                    </form>
+
+                </main>
+                <aside id="list_display">
+                    <h2>Current reservations</h2>
+
+                    <ul id="reservationList"></ul>
+                </aside>
+                <script type='module' src="JavaScript.js"></script>
+
+            </div>
+            
+        </div>
     </body>
 </html>
