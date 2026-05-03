@@ -177,7 +177,7 @@ li button:hover {
     color: var(--accent);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 760px) {
     .layout {
         width: 95%;
         grid-template-columns: 1fr;
