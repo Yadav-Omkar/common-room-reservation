@@ -71,7 +71,9 @@ function renderReservations(reservations) {
         const li = document.createElement('li');
 
         const formattedDate = formatDateInWords(res.date);
-        li.textContent = `${formattedDate}: ${res.time_from.slice(0, 5)} - ${res.time_till.slice(0, 5)} by ${res.name}`;
+        const formatTime = (t) => (t ? t.slice(0, 5) : "—");
+
+        li.textContent = `${formattedDate}: ${formatTime(res.time_from)} - ${formatTime(res.time_till)} by ${res.name}`;
         list.appendChild(li);
     });
 }

@@ -62,17 +62,6 @@ li {
     padding-left: 14px;
 }
 
-li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 10px;
-    bottom: 10px;
-    width: 3px;
-    border-radius: 3px;
-    background: var(--accent);
-    opacity: 0.6;
-}
 ul {
     list-style: none;
     padding: 0;
