@@ -63,19 +63,55 @@ async function loadReservations() {
 
 function renderReservations(reservations) {
     const list = document.getElementById('reservationList');
-
-    // clear existing list
     list.innerHTML = '';
 
-    reservations.forEach(res => {
-        const li = document.createElement('li');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-        const formattedDate = formatDateInWords(res.date);
-        const formatTime = (t) => (t ? t.slice(0, 5) : "—");
+    const formatTime = (t) => (t ? t.slice(0, 5) : "—");
 
-        li.textContent = `${formattedDate}: ${formatTime(res.time_from)} - ${formatTime(res.time_till)} by ${res.name}`;
-        list.appendChild(li);
-    });
+    reservations
+        .filter(res => {
+            const resDate = new Date(res.date);
+            resDate.setHours(0, 0, 0, 0);
+            return resDate >= today;
+        })
+        .forEach(res => {
+            const li = document.createElement('li');
+
+            const formattedDate = formatDateInWords(res.date);
+
+            const text = document.createElement('span');
+            text.textContent = `${formattedDate}: ${formatTime(res.time_from)} - ${formatTime(res.time_till)} by ${res.name}`;
+
+            const btn = document.createElement('button');
+            btn.textContent = 'x';
+            btn.style.marginLeft = '10px';
+
+            btn.addEventListener('click', async () => {
+                if (!confirm('Delete this reservation?')) return;
+                await deleteReservation(res.id);
+            });
+
+            li.appendChild(text);
+            li.appendChild(btn);
+
+            list.appendChild(li);
+        });
+}
+
+async function deleteReservation(id) {
+
+    const { error } = await supabase
+        .from('reservations')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        console.log(error.message);
+    } else {
+        loadReservations();
+    }
 }
 
 loadReservations();
@@ -90,3 +126,4 @@ function formatDateInWords(dateString) {
         month: 'long'
     }).format(date);
 }
+

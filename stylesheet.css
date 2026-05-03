@@ -158,6 +158,24 @@ button:hover {
     filter: brightness(1.15);
 }
 
+li {
+    display: flex;
+    height: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li button {
+    background: transparent;
+    border: none;
+    color: var(--subtext0);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+li button:hover {
+    color: var(--accent);
+}
 
 @media (max-width: 1100px) {
     .layout {
