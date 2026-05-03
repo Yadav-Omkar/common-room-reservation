@@ -1,0 +1,23 @@
+{
+  "name": "common-room-reservation",
+  "version": "1.0.0",
+  "description": "At my residence, people had been sharing around edited text messages to communicate reservations for the room, so I decided to make a website with synchronisation and visualisations for when the room will be booked out.",
+  "homepage": "https://github.com/yadav-omkar/common-room-reservation#readme",
+  "bugs": {
+    "url": "https://github.com/yadav-omkar/common-room-reservation/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yadav-omkar/common-room-reservation.git"
+  },
+  "license": "ISC",
+  "author": "Omkar Yadav",
+  "type": "commonjs",
+  "main": "JavaScript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.1"
+  }
+}
