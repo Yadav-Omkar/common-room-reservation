@@ -369,9 +369,9 @@
 // ║  STEP 1 — paste your Supabase credentials here  ║
 // ╚══════════════════════════════════════════════════╝
 const SUPABASE_URL      = 'https://jsimrbgdhmaapvuobeoc.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_3Fg_xId0qSlafIc-wvvZOg_Q8rtR4K4';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpzaW1yYmdkaG1hYXB2dW9iZW9jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MDQyNTYsImV4cCI6MjA5MzM4MDI1Nn0.iPjf_0EWxlWhz3WpXGQ_8GYTN4s5Hh0RyEzQsKpzXfY';
 
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/module/index.js';
 
 if (SUPABASE_URL === 'YOUR_SUPABASE_URL') {
   document.getElementById('setupBanner').style.display = 'block';
@@ -455,6 +455,17 @@ function render() {
     generateText(reservations).split('\n').slice(0,2).join(' · ');
 }
 
+// ── error display ─────────────────────────────────────────────────────────────
+function showError(msg, detail) {
+  const list = document.getElementById('resList');
+  list.innerHTML = `<div class="empty-state">
+    <div class="big">⚠️</div>
+    <p style="color:#c9622a;font-weight:500;margin-bottom:8px">${msg}</p>
+    <p style="font-size:0.72rem;word-break:break-all;background:var(--paper);padding:10px;border-radius:6px;border:1px solid var(--border);text-align:left">${detail}</p>
+  </div>`;
+  document.getElementById('copyPreview').textContent = '⚠️ Error loading data';
+}
+
 // ── load + realtime ───────────────────────────────────────────────────────────
 async function load() {
   const { data, error } = await db
@@ -462,7 +473,17 @@ async function load() {
     .select('*')
     .gte('date', todayStr())
     .order('date');
-  if (error) { showToast('Could not load — check console'); console.error(error); return; }
+  if (error) {
+    console.error(error);
+    const hint =
+      error.code === '42P01' ? 'Table "reservations" not found. Did you run the SQL in the README?' :
+      error.code === '42501' ? 'Permission denied. Did you create the Row Level Security policies?' :
+      error.message?.includes('Invalid API') ? 'Invalid API key. Check your SUPABASE_ANON_KEY.' :
+      error.message?.includes('fetch') ? 'Network error. Check your SUPABASE_URL.' :
+      '';
+    showError(`Supabase error: ${error.code || error.message}`, hint || error.message || JSON.stringify(error));
+    return;
+  }
   reservations = data || [];
   render();
 }
